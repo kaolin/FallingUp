@@ -1,0 +1,24 @@
+#include <windows.h>
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+100     ICON    src\icon.ico
+GLUT_ICON ICON src\icon.ico
+
+1 VERSIONINFO
+FILEVERSION 0, 0, 3, 8
+PRODUCTVERSION 0, 0, 0, 0
+FILEFLAGSMASK 0
+FILEOS 0x40000
+FILETYPE 1
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040904E4"
+  {
+   VALUE "Author", "Kaolin Fire"
+   VALUE "Website", "http://erif.org/code/fallingup/"
+   VALUE "FileDescription", "Everyone's favorite tetronimo game, with a twist"
+   VALUE "FileVersion", "004b"
+   VALUE "LegalCopyright", "2005, TODO"
+  }
+ }
+}

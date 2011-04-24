@@ -1,0 +1,12 @@
+CC=c:\mingw\bin\gcc
+FallingUp.exe: src\fallingup.c src\imagelib.c src\imagelib.c src\os.h src\imagelib.h src\icon.o Makefile
+	${CC} -mwindows -o FallingUp.exe src\imagelib.c src\fallingup.c src\icon.o -lglut32 -lopengl32 -lglu32 -lalut -lopenal32 -DWINDOWS
+clean:
+	del FallingUp.exe
+	del src\*.o
+run: FallingUp.exe
+	FallingUp
+src\icon.o: src\icon.rc src\icon.ico
+	windres -i src/icon.rc -o src/icon.o
+src\icon.ico: misc/icon16.ico misc/icon32.ico misc/icon64.ico misc/icon128.ico
+	icobundl -o src/icon.ico misc/icon16.ico misc/icon32.ico misc/icon64.ico misc/icon128.ico

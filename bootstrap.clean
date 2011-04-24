@@ -1,0 +1,6 @@
+#!/bin/sh
+make clean
+rm -rf autom4te.cache/ src/.deps
+rm -f aclocal.m4 autoscan.log config.log config.status configure COPYING depcomp install-sh missing NOTES src/Makefile src/Makefile.in src/fallingup src/fallingup.o src/imagelib.o
+find . -name Makefile -exec rm -f \{\} \;
+find . -name Makefile.in -exec rm -f \{\} \;

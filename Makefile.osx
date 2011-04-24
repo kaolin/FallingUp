@@ -1,0 +1,10 @@
+#osx makefile; defines OSX
+FallingUp: src/fallingup.c src/imagelib.c src/os.h src/imagelib.h Makefile
+	gcc -framework OpenAL -framework OpenGL -framework GLUT -framework Foundation -o FallingUp src/imagelib.c src/fallingup.c -DOSX
+clean:
+	rm src/*.o
+	rm FallingUp
+run: FallingUp
+	./FallingUp
+debug: FallingUP
+	gdb FallingUp

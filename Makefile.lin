@@ -1,0 +1,11 @@
+#linux makefile; defines LINUX
+FallingUp: src/fallingup.c src/imagelib.c src/os.h src/imagelib.h Makefile.lin
+	${CC} -I/usr/include/GL -lopenal -lalut -lGL -lGLU -lglut -o FallingUp src/imagelib.c src/fallingup.c -DLINUX
+
+clean:
+	rm -f src/*.o
+	rm -f FallingUp
+run: FallingUp
+	./FallingUp
+debug: FallingUP
+	gdb FallingUp
