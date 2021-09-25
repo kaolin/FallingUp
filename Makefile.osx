@@ -1,10 +1,64 @@
 #osx makefile; defines OSX
-FallingUp: src/fallingup.c src/imagelib.c src/os.h src/imagelib.h Makefile.osx
-	gcc -framework OpenAL -framework OpenGL -framework GLUT -framework Foundation -o FallingUp src/imagelib.c src/fallingup.c -DOSX
+# ALSO https://billthefarmer.github.io/blog/build-mac-osx-apps-using-command-line-tools/ for the .app
+
+APPNAME=FallingUp
+APPICON=src/icon.png
+IDENTITY='Developer ID Application: Kaolin Fire (TP8P64EJ78)'
+
+APPBUNDLE=$(APPNAME).app
+APPBUNDLECONTENTS=$(APPBUNDLE)/Contents
+APPBUNDLEMACOS=$(APPBUNDLECONTENTS)/MacOS
+APPBUNDLERESOURCES=$(APPBUNDLECONTENTS)/Resources
+
+$(APPBUNDLE): $(APPNAME) src/Info.plist src/PkgInfo $(APPNAME).icns resources/sounds/*.wav resources/images/*.raw resources/images/tiles/*.raw
+	rm -rf $(APPBUNDLE)
+	mkdir -p $(APPBUNDLECONTENTS)
+	mkdir $(APPBUNDLEMACOS)
+	mkdir -p $(APPBUNDLERESOURCES)/resources/sounds
+	mkdir -p $(APPBUNDLERESOURCES)/resources/images/tiles
+	cp src/Info.plist $(APPBUNDLECONTENTS)/
+	cp src/PkgInfo $(APPBUNDLECONTENTS)/
+	cp resources/sounds/*.wav $(APPBUNDLERESOURCES)/resources/sounds/
+	cp resources/images/*.raw $(APPBUNDLERESOURCES)/resources/images/
+	cp resources/images/tiles/*.raw $(APPBUNDLERESOURCES)/resources/images/tiles/
+	cp $(APPNAME).icns $(APPBUNDLERESOURCES)/
+	cp $(APPNAME) $(APPBUNDLEMACOS)/
+
+$(APPNAME): src/fallingup.c src/imagelib.c src/os.h src/imagelib.h Makefile.osx
+	gcc -framework OpenAL -framework OpenGL -framework GLUT -framework Foundation -o $(APPNAME) src/imagelib.c src/fallingup.c -DOSX
+
+$(APPNAME).icns: $(APPICON)
+	rm -rf $(APPNAME).iconset
+	mkdir $(APPNAME).iconset
+	sips -z 16 16   $(APPICON) --out $(APPNAME).iconset/icon_16x16.png
+	sips -z 32 32   $(APPICON) --out $(APPNAME).iconset/icon_16x16@2x.png
+	sips -z 32 32   $(APPICON) --out $(APPNAME).iconset/icon_32x32.png
+	sips -z 64 64   $(APPICON) --out $(APPNAME).iconset/icon_32x32@2x.png
+	sips -z 128 128 $(APPICON) --out $(APPNAME).iconset/icon_128x128.png
+	sips -z 256 256 $(APPICON) --out $(APPNAME).iconset/icon_128x128@2x.png
+	sips -z 256 256 $(APPICON) --out $(APPNAME).iconset/icon_256x256.png
+	sips -z 512 512 $(APPICON) --out $(APPNAME).iconset/icon_256x256@2x.png
+	sips -z 512 512 $(APPICON) --out $(APPNAME).iconset/icon_512x512.png
+	sips -z 1024 1024 $(APPICON) --out $(APPNAME).iconset/icon_512x512@2x.png
+	iconutil -c icns -o $(APPNAME).icns $(APPNAME).iconset
+	rm -rf $(APPNAME).iconset
+
 clean:
-	rm src/*.o
-	rm FallingUp
-run: FallingUp
-	./FallingUp
-debug: FallingUP
-	gdb FallingUp
+	rm -f src/*.o
+	rm -f $(APPNAME)
+	rm -rf $(APPBUNDLE)
+	rm -rf $(APPNAME).icns
+
+runbundle: $(APPBUNDLE)
+	open $(APPBUNDLE)
+
+run: $(APPNAME)
+	./$(APPNAME)
+
+debug: $(APPNAME)
+	gdb $(APPNAME)
+
+# https://developer.apple.com/library/archive/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html
+#spctl -vvv --assess --type execspctl -vvv --assess --type exec $(APPBUNDLE) --raw
+sign: $(APPBUNDLE)
+	codesign -s $(IDENTITY) --options=runtime $(APPBUNDLE)

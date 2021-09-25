@@ -1,0 +1,14 @@
+bak2
+releases
+FallingUp
+template.dmg.bz2
+.DS_Store
+.*.sw?
+FallingUp.iconset
+src/Info.plist
+src/PkgInfo
+FallingUp.app
+*.dmg.zip
+FallingUp.icns
+*.dmg
+resources/fallingup.sco

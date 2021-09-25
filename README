@@ -1,4 +1,7 @@
+
 The build system is a little confused at the moment. For linux, the "BUILD" script should get things going best (and then "make"). Alternatively, or for other operating systems, with base gcc/etc installed (mingw for windows, for example), just 'make -f Makefile.[platform]'
+
+MacOS now uses clang to build a fat binary for newer intel and M1 processors in theory, and signs and notifies and staples the release. (make -f Makefile.osx sign && make -f Makefile-dmg sign)
 
 I'm always open to documention or build system/packaging upgrades. Also up for someone getting around to:
 

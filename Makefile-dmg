@@ -18,8 +18,13 @@
 # Customizable variables
 ################################################################################
 
-NAME ?= Falling Up
+NAME ?= FallingUp
 VERSION ?= 0.006
+IDENTITY ?= 'Developer ID Application: Kaolin Fire (TP8P64EJ78)'
+APPLEID ?= 'iosdev_spam@erif.org'
+APP_PASSWORD ?= 'FIXME'
+TEAMID ?= 'TP8P64EJ78'
+
 
 SOURCE_DIR ?= .
 SOURCE_FILES ?= FallingUp.app
@@ -73,4 +78,11 @@ $(MASTER_DMG): $(WC_DMG) $(addprefix $(SOURCE_DIR)/,$(SOURCE_FILES))
 
 .PHONY: clean
 clean:
-	-rm -rf $(TEMPLATE_DMG) $(MASTER_DMG) $(WC_DMG)
+	rm -rf $(TEMPLATE_DMG) $(MASTER_DMG) $(WC_DMG)
+
+sign: $(MASTER_DMG)
+	codesign -s codesign -s $(IDENTITY) --options=runtime $(MASTER_DMG)
+	codesign -dvv $(MASTER_DMG)
+	xcrun notarytool submit $(MASTER_DMG) --apple-id $(APPLEID) --password $(APP_PASSWORD) --team-id $(TEAMID) --wait
+	# presume success
+	xcrun stapler staple $(MASTER_DMG)
