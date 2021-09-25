@@ -10,8 +10,10 @@
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
 #include <OpenAL/al.h>
+#include <OpenAL/alut.h>
 #include <OpenAL/alc.h>
 #include <pwd.h> // also for LINUX?
+#include <unistd.h>
 #endif
 
 /** windows compile: gcc -mwindows -o FallingUp.exe fallingup.c -lglut32 -lopengl32 -lglu32 -lalut -lopenal32 */

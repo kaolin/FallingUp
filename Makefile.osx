@@ -1,5 +1,5 @@
 #osx makefile; defines OSX
-FallingUp: src/fallingup.c src/imagelib.c src/os.h src/imagelib.h Makefile
+FallingUp: src/fallingup.c src/imagelib.c src/os.h src/imagelib.h Makefile.osx
 	gcc -framework OpenAL -framework OpenGL -framework GLUT -framework Foundation -o FallingUp src/imagelib.c src/fallingup.c -DOSX
 clean:
 	rm src/*.o
